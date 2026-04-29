@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Areia e Brita</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f3f6fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .header {
+      background: #111827;
+      color: #ffffff;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #d1d5db;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: 2px solid #d1d5db;
+      outline: none;
+      margin-bottom: 16px;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card span {
+      color: #4b5563;
+      font-size: 15px;
+    }
+
+    .card strong {
+      font-size: 20px;
+      color: #111827;
+      text-align: right;
+    }
+
+    .main-card {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    .footer {
+      padding: 14px 18px 20px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .btn-limpar {
+      width: 100%;
+      margin-top: 14px;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-limpar:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="header">
+      <h1>Calculadora de Areia e Brita</h1>
+      <p>Informe a quantidade de sacos de 20kg</p>
+    </section>
+
+    <section class="content">
+      <label for="sacos">Quantidade de sacos</label>
+      <input type="number" id="sacos" placeholder="Ex: 2000" min="0" inputmode="numeric" />
+
+      <div class="cards">
+        <div class="card main-card">
+          <span>Sacos</span>
+          <strong id="resultadoSacos">0</strong>
+        </div>
+
+        <div class="card">
+          <span>Tonelada</span>
+          <strong id="resultadoTonelada">0</strong>
+        </div>
+
+        <div class="card">
+          <span>M³</span>
+          <strong id="resultadoM3">0</strong>
+        </div>
+
+        <div class="card">
+          <span>Caminhão</span>
+          <strong id="resultadoCaminhao">0</strong>
+        </div>
+
+        <div class="card">
+          <span>Truck</span>
+          <strong id="resultadoTruck">0</strong>
+        </div>
+      </div>
+
+      <button class="btn-limpar" onclick="limpar()">Limpar</button>
+    </section>
+
+    <section class="footer">
+      Base de cálculo: 1 saco = 0,02 to | 1 m³ = 1,5 to | 1 caminhão = 7,5 to | 1 truck = 12,5 to
+    </section>
+  </main>
+
+  <script>
+    const inputSacos = document.getElementById('sacos');
+
+    const resultadoSacos = document.getElementById('resultadoSacos');
+    const resultadoTonelada = document.getElementById('resultadoTonelada');
+    const resultadoM3 = document.getElementById('resultadoM3');
+    const resultadoCaminhao = document.getElementById('resultadoCaminhao');
+    const resultadoTruck = document.getElementById('resultadoTruck');
+
+    function formatarNumero(valor) {
+      return valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function calcular() {
+      const sacos = Number(inputSacos.value) || 0;
+
+      const tonelada = sacos * 0.02;
+      const m3 = tonelada / 1.5;
+      const caminhao = tonelada / 7.5;
+      const truck = tonelada / 12.5;
+
+      resultadoSacos.textContent = formatarNumero(sacos);
+      resultadoTonelada.textContent = formatarNumero(tonelada);
+      resultadoM3.textContent = formatarNumero(m3);
+      resultadoCaminhao.textContent = formatarNumero(caminhao);
+      resultadoTruck.textContent = formatarNumero(truck);
+    }
+
+    function limpar() {
+      inputSacos.value = '';
+      calcular();
+      inputSacos.focus();
+    }
+
+    inputSacos.addEventListener('input', calcular);
+  </script>
+</body>
+</html>
